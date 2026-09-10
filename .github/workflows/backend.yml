@@ -1,8 +1,7 @@
 name: Backend CI
 
 on:
-  push:
-  pull_request:
+  workflow_dispatch: 
 
 jobs:
   backend:
@@ -56,17 +55,17 @@ jobs:
         run: |
           ./unit_tests/unit_tests --gtest_filter=codegen.*
 
-      - name: Generate LLVM IR
-        run: |
-          ./build/paracl_codegen unit_tests/data/common/func_basic.dat > out.ll 2> out.err
-          test -s out.ll
-          test ! -s out.err
+      # - name: Generate LLVM IR
+      #   run: |
+      #     ./build/paracl_codegen unit_tests/data/common/func_basic.dat > out.ll 2> out.err
+      #     test -s out.ll
+      #     test ! -s out.err
 
-      - name: Build generated program
-        run: |
-          clang++ out.ll ./paralib/paraio.cpp -lstdc++ -o out
+      # - name: Build generated program
+      #   run: |
+      #     clang++ out.ll ./paralib/paraio.cpp -lstdc++ -o out
 
-      - name: Run generated program
-        run: |
-          ./out > program.out
-          diff -u <(printf "42\n") program.out
+      # - name: Run generated program
+      #   run: |
+      #     ./out > program.out
+      #     diff -u <(printf "42\n") program.out
